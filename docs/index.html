@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#172d3f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="申购日程">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="北交所网上申购与上市日程提醒，可添加到手机主屏幕。">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="icon" href="./icons/icon-192.png">
+  <meta name="color-scheme" content="light">
+  <title>北交所 · 申购日程</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./platform.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="rail">
+      <a href="./" class="brand" aria-label="北交所申购日程首页"><span class="brand-mark">北</span><span>申购日程<small>投资交易工作台</small></span></a>
+      <div class="rail-label">工作空间</div>
+      <a class="nav-item selected" href="#reminders"><span aria-hidden="true">◷</span> 日程提醒 <i></i></a>
+      <a class="nav-item" href="#schedule"><span aria-hidden="true">▦</span> 发行日程</a>
+      <div class="rail-bottom"><span class="status-dot"></span> 手机 / 网页版<div>仅限北交所 · 网上申购</div><small>页面内提醒，不自动下单</small></div>
+    </aside>
+    <main>
+      <header class="topbar"><div class="breadcrumb">交易支持 <span>/</span> 北交所网上申购</div><div class="clock"><span class="status-dot"></span><span id="clock">北京时间 —</span></div></header>
+      <section class="page-heading">
+        <div><div class="eyebrow">SUBSCRIPTION CALENDAR</div><h1>北交所网上申购提醒</h1><p>申购与上市日程一览，及时关注每个重要日期。</p></div>
+        <div class="heading-actions"><button class="button secondary install-button" id="install-button"><span>↓</span> 安装到手机</button><button class="button secondary" id="add-button"><span>＋</span> 补充日程</button><button class="button primary" id="refresh-button"><span id="refresh-icon">↻</span> <span id="refresh-label">刷新日程</span></button></div>
+      </section>
+      <div id="notice" class="notice" role="status" hidden></div>
+      <div id="demo-banner" class="demo-banner" hidden><div><strong>演示模式</strong><span>当前为虚构样例，用于体验功能，请勿据此申购或交易。</span></div><button class="text-button" id="leave-demo">返回真实日程 →</button></div>
+      <section class="summary-grid" aria-label="日程概览">
+        <button class="summary-card" data-summary="today"><div class="summary-title">今日申购 <span class="mini-icon amber">↗</span></div><strong id="count-today">—</strong><div class="summary-description">当日日程，含已结束时段 <span>查看 →</span></div></button>
+        <button class="summary-card" data-summary="upcoming"><div class="summary-title">即将申购 <span class="mini-icon blue">◷</span></div><strong id="count-upcoming">—</strong><div class="summary-description">未来 7 天，不含今天 <span>查看 →</span></div></button>
+        <button class="summary-card" data-summary="listing"><div class="summary-title">上市／卖出关注 <span class="mini-icon green">↗</span></div><strong id="count-listing">—</strong><div class="summary-description">今天及未来 7 天 <span>查看 →</span></div></button>
+        <button class="summary-card" data-summary="pending"><div class="summary-title">上市日期待公告 <span class="mini-icon neutral">···</span></div><strong id="count-pending">—</strong><div class="summary-description">已到申购日，上市日未确认 <span>查看 →</span></div></button>
+      </section>
+      <section class="work-grid" id="reminders">
+        <div class="panel reminders-panel">
+          <div class="panel-heading"><div><h2>日程提醒 <span class="small-badge" id="reminder-total">0</span></h2><p id="reminder-caption">今天及未来 7 天 · 按北京时间</p></div><select id="reminder-filter" aria-label="筛选提醒"><option value="all">全部提醒</option><option value="today">今日申购</option><option value="upcoming">即将申购</option><option value="listing">上市关注</option></select></div>
+          <div id="reminder-list" aria-live="polite"><div class="empty-state"><div class="empty-symbol">◷</div><h3>正在载入日程</h3><p>读取公开日程与此设备记录…</p></div></div>
+          <div class="panel-footnote">“已处理”和手工日程仅保存在此设备，不会上传；不代表已申购或已卖出。</div>
+        </div>
+        <aside class="panel briefing-panel"><div class="briefing-icon">i</div><div class="eyebrow">工作提示</div><h2>关注日程，<br>也核对公告。</h2><div class="briefing-item"><span>01</span><p><strong>申购前</strong>核对网上申购代码、发行价格、申购上限和资金安排，具体要求以发行公告为准。</p></div><div class="briefing-item"><span>02</span><p><strong>上市日</strong>是卖出关注节点。是否卖出、何时卖出，由投资经理决定。</p></div><div class="briefing-item"><span>03</span><p><strong>日期未公布</strong>显示“待公告”，不根据申购日推算上市日。</p></div><a href="https://data.eastmoney.com/xg/xg/?mkt=bjs" target="_blank" rel="noopener noreferrer">查看东方财富北交所日程 <span>↗</span></a></aside>
+      </section>
+      <section class="panel schedule-panel" id="schedule">
+        <div class="panel-heading"><div><h2>发行日程 <span class="small-badge" id="record-total">0</span></h2><p>仅展示北交所网上发行相关日程</p></div><div class="table-actions"><button class="text-button" id="template-button">下载模板</button><button class="text-button" id="import-button">导入 CSV</button><button class="text-button" id="export-button">导出 CSV</button><input type="file" id="import-file" accept=".csv,text/csv" hidden></div></div>
+        <div class="table-toolbar"><label class="search-box"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索股票名称、股票代码或申购代码" aria-label="搜索股票"></label><div class="range-control" role="group" aria-label="日期范围"><button data-range="7">未来 7 天</button><button data-range="30" class="active">未来 30 天</button><button data-range="all">全部</button></div><label class="pending-toggle"><input type="checkbox" id="pending-only"> 仅看上市待公告</label></div>
+        <div class="table-wrap"><table><thead><tr><th>股票 / 申购代码</th><th>网上申购日</th><th>上市日</th><th class="number">发行价</th><th class="number">网上申购上限</th><th>数据来源</th><th><span class="sr-only">操作</span></th></tr></thead><tbody id="schedule-body"></tbody></table></div>
+        <div id="table-empty" class="empty-state compact" hidden><h3>没有符合条件的日程</h3><p>可以切换到“全部”、调整搜索，或手动补充公告日期。</p></div>
+        <div class="table-footer"><span id="data-status">等待载入数据</span><span>每 30 分钟同步已发布日程</span></div>
+      </section>
+      <footer class="page-footer"><span>北京时间（UTC+8） · 页面内提醒，关闭后不推送。设备间标记不自动同步。</span><button class="text-button" id="demo-button">体验演示数据</button></footer>
+    </main>
+  </div>
+  <dialog id="record-dialog">
+    <form id="record-form">
+      <div class="dialog-header"><div><div class="eyebrow">ONLINE SUBSCRIPTION</div><h2 id="dialog-title">补充日程</h2></div><button type="button" class="icon-button" id="close-dialog" aria-label="关闭">×</button></div>
+      <p class="form-intro">根据发行或上市公告补充信息。网上申购日期必填，上市日期未知可留空；手工记录仅保存在此设备，需要自行核对与维护。</p>
+      <div class="form-grid"><label>股票代码 <span>*</span><input name="code" required pattern="[0-9]{6}" maxlength="6" inputmode="numeric" placeholder="6 位股票代码"></label><label>股票简称 <span>*</span><input name="name" required maxlength="40" placeholder="股票简称"></label><label>网上申购代码<input name="subscription_code" pattern="[0-9]{6}" maxlength="6" inputmode="numeric" placeholder="以发行公告为准"></label><label>发行价格（元 / 股）<input name="issue_price" type="number" min="0.0001" step="any" placeholder="可留空"></label><label>网上申购日期 <span>*</span><input name="subscription_date" type="date" required></label><label>上市日期<input name="listing_date" type="date"></label><label>网上申购上限（股）<input name="subscription_limit" type="number" min="1" step="1" placeholder="以发行公告为准"></label><label>数据来源<input name="source_name" maxlength="100" placeholder="例如：发行公告 / 上市公告"></label><label class="full-width">公告 / 数据来源链接<input name="source_url" type="url" placeholder="https://"></label></div>
+      <div id="form-error" class="form-error" role="alert" hidden></div>
+      <div class="dialog-footer"><button type="button" class="button danger" id="delete-record" hidden>移除手工记录 / 覆盖</button><span class="dialog-spacer"></span><button type="button" class="button secondary" id="cancel-dialog">取消</button><button type="submit" class="button primary" id="save-record">保存日程</button></div>
+    </form>
+  </dialog>
+  <dialog id="install-dialog" aria-labelledby="install-title">
+    <div class="install-content"><div class="dialog-header"><div><div class="eyebrow">手机主屏幕</div><h2 id="install-title">把申购日程放到手机桌面</h2></div><button type="button" class="icon-button" id="close-install" aria-label="关闭安装说明">×</button></div>
+      <p id="install-status" class="install-lead">安装后可像应用一样打开，手机无需运行 Python。</p>
+      <div class="install-step"><strong>iPhone / iPad</strong><p>请用 Safari 打开本页，点“分享”按钮，选择“添加到主屏幕”，再点“添加”。</p></div>
+      <div class="install-step"><strong>Android</strong><p>请用 Chrome 或 Edge 打开本页，从浏览器菜单选择“安装应用”或“添加到主屏幕”。支持自动安装提示时，可直接点击下方按钮。</p></div>
+      <p class="install-note">微信内置浏览器请先选择“在浏览器中打开”。首次联网打开后可缓存页面；离线日程可能过时，须核对更新时间。安装不会开启后台推送。</p>
+      <div class="install-actions"><button class="button secondary" id="copy-link">复制页面链接</button><button class="button primary" id="native-install" hidden>安装应用</button></div>
+    </div>
+  </dialog>
+  <div id="toast" role="status" hidden></div>
+</body>
+</html>
